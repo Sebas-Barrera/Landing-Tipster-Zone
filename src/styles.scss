@@ -1,1 +1,87 @@
-/* You can add global styles to this file, and also import other style files */
+@use "tailwindcss" as *;
+
+/* Oculta scrollbars pero permite el scroll */
+* {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+  }
+  
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+/* Asegura que el fondo sea negro en toda la aplicación */
+html, body {
+  background-color: #111827; /* bg-gray-900 */
+  height: 100%;
+  width: 100%;
+}
+
+/* Control de contenedores con scroll independiente */
+.sidebar-container > div {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 20px;
+}
+
+/* Prevenir propagación de eventos de scroll */
+.sidebar-container, .main-content {
+  overscroll-behavior: contain;
+}
+
+/* Evita selección de texto en elementos que no lo necesitan */
+.select-none {
+  user-select: none;
+}
+
+/* Ajuste para el menú inferior en móviles */
+@media (max-width: 768px) {
+  .has-bottom-menu {
+    padding-bottom: 4rem;
+  }
+  
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .has-bottom-menu {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* Estilos para cuando el scroll del body está bloqueado (modal activo) */
+body.overflow-hidden {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* Clase que se aplica a modales para evitar problemas de scroll en móviles */
+.modal-open-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  overscroll-behavior: contain;
+  touch-action: manipulation;
+}
+
+/* Mejora para dispositivos con notch */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .modal-open-mobile {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mejoras para inputs en modales */
+.modal-container input,
+.modal-container select,
+.modal-container textarea,
+.modal-container button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
